@@ -34,7 +34,7 @@
             "Key": "1e9c34bc-a476-47f1-b98d-e01d8147a998",
             "Value": {
                 "id": "9ed79c53-8073-4da2-a7ea-ff4cab77d615",
-                "resourcePath": "scripts\/script0\/script0.yy",
+                "resourcePath": "scripts\/scr_get_input\/scr_get_input.yy",
                 "resourceType": "GMScript"
             }
         },
@@ -71,10 +71,18 @@
             }
         },
         {
+            "Key": "3ef66ed5-bff5-4102-9b9d-f4cfac591faf",
+            "Value": {
+                "id": "54ea98fe-0873-443b-8856-4bc4d27c4184",
+                "resourcePath": "objects\/obj_Background_Tile\/obj_Background_Tile.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "480b9119-dc61-48d3-81a3-a0d17eee641c",
             "Value": {
                 "id": "c627524f-c49e-44a6-825f-f9af0928fe46",
-                "resourcePath": "objects\/square\/square.yy",
+                "resourcePath": "objects\/obj_Square\/obj_Square.yy",
                 "resourceType": "GMObject"
             }
         },
@@ -122,7 +130,7 @@
             "Key": "768b1245-8d2f-47a6-8882-445ab617903d",
             "Value": {
                 "id": "3be7c16f-5246-4b4f-b317-903655c03fee",
-                "resourcePath": "objects\/block\/block.yy",
+                "resourcePath": "objects\/obj_Block\/obj_Block.yy",
                 "resourceType": "GMObject"
             }
         },
@@ -191,6 +199,14 @@
             }
         },
         {
+            "Key": "cf8c797c-6a67-4aaa-bf92-264a5b5de113",
+            "Value": {
+                "id": "c1feb23a-60b5-4e06-8782-5916b50ad337",
+                "resourcePath": "scripts\/scr_any_dir_input\/scr_any_dir_input.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "dd41aa3d-06eb-4841-8abc-6fe4151dda14",
             "Value": {
                 "id": "57ebcc3c-48f7-4159-b910-97e19e541841",
@@ -215,11 +231,27 @@
             }
         },
         {
+            "Key": "ef88d2f2-9b79-4318-b607-911bf0552071",
+            "Value": {
+                "id": "edb65ada-0f45-44e6-ac95-fa01479bd7d0",
+                "resourcePath": "sprites\/spr_background_tile\/spr_background_tile.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "f418569b-3bdd-4706-a0e4-364317f54032",
             "Value": {
                 "id": "c7bac51a-34ff-4bea-bc70-602467867534",
                 "resourcePath": "options\/mac\/options_mac.yy",
                 "resourceType": "GMMacOptions"
+            }
+        },
+        {
+            "Key": "f5c89123-541e-4438-938b-7de40c3544e2",
+            "Value": {
+                "id": "aac08fc9-e421-4086-9427-5018ff472038",
+                "resourcePath": "objects\/obj_Controller\/obj_Controller.yy",
+                "resourceType": "GMObject"
             }
         },
         {
@@ -232,7 +264,8 @@
         }
     ],
     "script_order": [
-        "1e9c34bc-a476-47f1-b98d-e01d8147a998"
+        "1e9c34bc-a476-47f1-b98d-e01d8147a998",
+        "cf8c797c-6a67-4aaa-bf92-264a5b5de113"
     ],
     "tutorial": ""
 }
