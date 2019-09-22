@@ -63,6 +63,14 @@
             }
         },
         {
+            "Key": "336a2cec-5b97-40e7-ba4b-5f334a087a7d",
+            "Value": {
+                "id": "fc5ac5ee-0b6b-4b70-bcee-b96d5b72b4c5",
+                "resourcePath": "sprites\\cursor\\cursor.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "3c011191-a752-4c59-aa66-2a1504731907",
             "Value": {
                 "id": "06a27524-121b-4308-bcce-0c2ef236eb83",
@@ -111,6 +119,14 @@
             }
         },
         {
+            "Key": "944761a7-e38f-4732-8993-296361b5ad01",
+            "Value": {
+                "id": "fc20d5ff-fec5-4537-88bc-d28a02a22c92",
+                "resourcePath": "sprites\\player\\player.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "a95b0028-61e9-4a31-88f8-60dda8e1f09b",
             "Value": {
                 "id": "608b9ef6-71d4-4714-ad8e-694c9b964e8a",
@@ -143,11 +159,35 @@
             }
         },
         {
+            "Key": "c5e851e7-5c3a-4504-8b79-0c2620e7df92",
+            "Value": {
+                "id": "dddf52a8-5253-407e-a4ac-0cf78bd506a4",
+                "resourcePath": "sprites\\wall\\wall.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "c8ea62f7-fc1b-4afb-b1c3-df5e95f16645",
+            "Value": {
+                "id": "2962853d-51c9-4c56-b3ae-c68235eea1c1",
+                "resourcePath": "objects\\oWall\\oWall.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "cc98d028-7bdd-4680-85f3-c87a7baa481e",
             "Value": {
                 "id": "c85e32c0-e7fc-4694-af60-78f2af93111b",
                 "resourcePath": "options\\windows\\options_windows.yy",
                 "resourceType": "GMWindowsOptions"
+            }
+        },
+        {
+            "Key": "d4b4e5b7-36a2-49ca-b038-897d0522d741",
+            "Value": {
+                "id": "d9a9bc9c-db64-4ffc-b146-fe3bf8a19042",
+                "resourcePath": "objects\\oPlayer\\oPlayer.yy",
+                "resourceType": "GMObject"
             }
         },
         {
