@@ -1,8 +1,8 @@
 {
-    "id": "cf8c797c-6a67-4aaa-bf92-264a5b5de113",
+    "id": "cc13a7c4-fe43-497c-bffd-f8a373414d7c",
     "modelName": "GMScript",
     "mvc": "1.0",
-    "name": "scr_any_dir_input",
+    "name": "scr_get_input_pressed",
     "IsCompatibility": false,
     "IsDnD": false
 }
