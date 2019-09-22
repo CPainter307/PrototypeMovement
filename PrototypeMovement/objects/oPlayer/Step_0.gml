@@ -1,23 +1,22 @@
-//if xdir != previous_xdir {
-//	skid_stop = false	
-//}
-
 if gamepad_is_connected(0) {
 	xdir = gamepad_axis_value(0, gp_axislh)
 	gamepad_set_axis_deadzone(0, .3)
 	space_pressed = gamepad_button_check_pressed(0, gp_face1)
 	space_released = gamepad_button_check_released(0, gp_face1)
 } else {
+	input_right = keyboard_check(ord("D"))
+	input_left =  keyboard_check(ord("A"))
 	xdir = keyboard_check(ord("D")) - keyboard_check(ord("A"))
 	space_pressed = keyboard_check_pressed(vk_space)
+	space_held = keyboard_check(vk_space)
 	space_released = keyboard_check_released(vk_space)
 }
 
 //add gravity
-if motiony < 0 and gamepad_button_check(0, gp_face1) {
+if motiony < 0 {
 	motiony += GRAVITY
 } else {
-	motiony += FALL_GRAVITY
+	motiony += FALL_GRAVITY	
 }
 
 //coyote buffer
@@ -36,78 +35,70 @@ if jump_buffer > 0 {
 	jump_buffer -= 1	
 }
 
-//moving
-if on_floor or coyote_buffer > 0 {
-	if xdir > 0 { // moving left
-		if round(motionx) == -MAX_SPEED {
-			skid_stop = true	
-		}
-		//show_debug_message(string(round(motionx)))
-		if skid_stop and round(motionx) == 0 and !skid_started {
-			show_debug_message("skid")
-			skid_buffer = SKID_TIME
-			skid_started = true
-		}
-		if skid_buffer > 0 {
-			motionx = 0
-			skid_buffer -= 1
-			acceleration = 0;
-		}
-		if skid_buffer == 0 {
-			show_debug_message("skid stop")
-			skid_stop = false
-			skid_buffer = -1
-			acceleration = ACCELERATION
-			skid_started = false
-		}
-		image_xscale = 1
-		motionx = min(motionx+acceleration, MAX_SPEED)
-	}
-	if xdir < 0 { // moving right
-		if round(motionx) == MAX_SPEED {
-			skid_stop = true
-		}
-		//show_debug_message(string(round(motionx)))
-		if skid_stop and round(motionx) == 0 and !skid_started {
-			show_debug_message("skid")
-			skid_buffer = SKID_TIME
-			skid_started = true
-		}
-		if skid_buffer > 0 {
-			motionx = 0
-			skid_buffer -= 1
-			acceleration = 0;
-		}
-		if skid_buffer == 0 {
-			show_debug_message("skid stop")
-			skid_stop = false
-			skid_buffer = -1
-			acceleration = ACCELERATION
-			skid_started = false
-		}
-		image_xscale = -1
-		motionx = max(motionx-acceleration, -MAX_SPEED)
-	}
-} else {
-	if xdir > 0
-		motionx = min(motionx+AIR_ACCELERATION, MAX_SPEED)
-	if xdir < 0
-		motionx = max(motionx-AIR_ACCELERATION, -MAX_SPEED)
+//release jump buffer
+if space_released {
+	release_buffer = JUMP_BUFFER_LENGTH
+}
+if release_buffer > 0 {
+	release_buffer -= 1	
 }
 
-//stop moving
-if xdir == 0 {
+//decelerate
+if !input_right and !input_left {
 	motionx = lerp(motionx, 0, DECCELRATION)
+	if motionx < DECCEL_CUTOFF and motionx > -DECCEL_CUTOFF {
+		motionx = 0	
+	}
+}
+
+//moving
+if on_floor or coyote_buffer > 0 {
+	if input_right { // moving right
+		motionx += ACCELERATION
+		if motionx >= MAX_SPEED {
+			motionx = MAX_SPEED
+		}
+	}
+	if input_left { // moving left
+		motionx -= ACCELERATION
+		if motionx <= -MAX_SPEED {
+			motionx = -MAX_SPEED	
+		}
+	}
+} else {
+	if input_right { // moving right
+		motionx += AIR_ACCELERATION
+		if motionx >= MAX_SPEED {
+			motionx = MAX_SPEED
+		}
+	}
+	if input_left { // moving left
+		motionx -= AIR_ACCELERATION
+		if motionx <= -MAX_SPEED {
+			motionx = -MAX_SPEED	
+		}
+	}	
 }
 
 //jump
-if (space_pressed or jump_buffer > 0) and (on_floor or coyote_buffer > 0) {
+
+//inital jump
+if (space_pressed or jump_buffer > 0) and (on_floor or coyote_buffer > 0) { 
+	jump_buffer = 0
+	coyote_buffer = 0
+	jump_time = JUMP_TIME
+	motiony = -JUMP_SPEED*2
+}
+//held jump
+if space_held and jump_time > 0 {
 	motiony = -JUMP_SPEED
+	jump_time--
 }
-//release jump
-if space_released and motiony < 0 {
-	motiony = lerp(motiony, 0, JUMP_FALLOFF_SPEED)	
-}
+//release jump 
+if (space_released or release_buffer) and motiony < 0 { 
+	//motiony = lerp(motiony, 0, JUMP_FALLOFF_SPEED)	
+	jump_time = 0
+} 
 
 //collision
 if (place_meeting(x+motionx, y, oWall)) {
@@ -128,6 +119,3 @@ if (place_meeting(x, y+motiony, oWall)) {
 	on_floor = false	
 }
 y += motiony
-
-//store xdir
-previous_xdir = xdir
