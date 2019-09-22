@@ -44,7 +44,8 @@ if release_buffer > 0 {
 }
 
 //decelerate
-if !input_right and !input_left {
+//
+if ((!input_right and motionx > 0 ) or (!input_left and motionx < 0)) { //if try to change direction mid run, the decelleration still remains, switching directions faster.
 	motionx = lerp(motionx, 0, DECCELRATION)
 	if motionx < DECCEL_CUTOFF and motionx > -DECCEL_CUTOFF {
 		motionx = 0	
