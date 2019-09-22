@@ -43,6 +43,7 @@ if release_buffer > 0 {
 	release_buffer -= 1	
 }
 
+
 //decelerate
 //
 if ((!input_right and motionx > 0 ) or (!input_left and motionx < 0)) { //if try to change direction mid run, the decelleration still remains, switching directions faster.
@@ -58,12 +59,14 @@ if on_floor or coyote_buffer > 0 {
 		motionx += ACCELERATION
 		if motionx >= MAX_SPEED {
 			motionx = MAX_SPEED
+			at_max_speed = true
 		}
 	}
 	if input_left { // moving left
 		motionx -= ACCELERATION
 		if motionx <= -MAX_SPEED {
-			motionx = -MAX_SPEED	
+			motionx = -MAX_SPEED
+			at_max_speed = true
 		}
 	}
 } else {
@@ -76,10 +79,21 @@ if on_floor or coyote_buffer > 0 {
 	if input_left { // moving left
 		motionx -= AIR_ACCELERATION
 		if motionx <= -MAX_SPEED {
-			motionx = -MAX_SPEED	
+			motionx = -MAX_SPEED
 		}
 	}	
 }
+
+
+//dash buffer      
+if (at_max_speed) {
+	dash_buffer = DASH_BUFFER_LENGTH	
+	at_max_speed = false
+}
+if dash_buffer > 0 {
+	dash_buffer -= 1	
+}
+
 
 //jump
 
@@ -89,6 +103,9 @@ if (space_pressed or jump_buffer > 0) and (on_floor or coyote_buffer > 0) {
 	coyote_buffer = 0
 	jump_time = JUMP_TIME
 	motiony = -JUMP_SPEED*2
+		if (dash_buffer > 0 and (sign(input_left - input_right) = sign(motionx))) { //executes if the player was dashing and input a change in direction.
+			motionx = 0	
+		}
 }
 //held jump
 if space_held and jump_time > 0 {
@@ -96,7 +113,7 @@ if space_held and jump_time > 0 {
 	jump_time--
 }
 //release jump 
-if (space_released or release_buffer) and motiony < 0 { 
+if (space_released or release_buffer > 0) and motiony < 0 { 
 	//motiony = lerp(motiony, 0, JUMP_FALLOFF_SPEED)	
 	jump_time = 0
 } 

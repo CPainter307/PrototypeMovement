@@ -11,15 +11,18 @@
 #macro JUMP_BUFFER_LENGTH 7
 #macro SKID_TIME 60
 #macro JUMP_TIME 20
+#macro DASH_BUFFER_LENGTH 20
 
 motionx = 0
 motiony = 0
 xdir = 0
 ydir = 0
+at_max_speed = false
 
 coyote_buffer = 0
 jump_buffer = 0
 release_buffer = 0
+dash_buffer = 0
 
 acceleration = ACCELERATION
 skid_buffer = -1
