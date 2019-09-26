@@ -2,25 +2,29 @@
 //currently only takes in keyboard input
 var d = argument0;
 var input = false;
-if (gamepad_is_connected(0)) {
+
+if (global.gamepad_active) {
 	switch (d) {
 		case inpt.up:
-			input = gamepad_button_check(0, global.input_up);
+			input = gamepad_button_check(global.gamepad_slot, global.input_up);
 			break;
 		case inpt.down:
-			input = gamepad_button_check(0, global.input_down);
+			input = gamepad_button_check(global.gamepad_slot, global.input_down);
 			break;
 		case inpt.left:
-			input = gamepad_button_check(0, global.input_left);
+			input = gamepad_button_check(global.gamepad_slot, global.input_left);
 			break;
 		case inpt.right:
-			input = gamepad_button_check(0, global.input_right);
+			input = gamepad_button_check(global.gamepad_slot, global.input_right);
 			break;
 		case inpt.jump:
-			input = gamepad_button_check(0, global.input_jump);
+			input = gamepad_button_check(global.gamepad_slot, global.input_jump);
 			break;
 		case inpt.dash:
-			input = gamepad_button_check(0, global.input_dash);
+			input = gamepad_button_check(global.gamepad_slot, global.input_dash);
+			break;
+		case inpt.aux:
+			input = gamepad_button_check(global.gamepad_slot, global.input_aux);
 			break;
 	}
 }
@@ -43,6 +47,9 @@ else {
 			break;
 		case inpt.dash:
 			input = keyboard_check(global.input_dash);
+			break;
+		case inpt.aux:
+			input = keyboard_check(global.input_aux);
 			break;
 	}
 }

@@ -15,3 +15,6 @@ else if (keyboard_check(ord(global.input_right))) {
 }
 
 return input_active;
+
+
+///NEED TO UPDATE WITH GET INPUT SCRIPTS
