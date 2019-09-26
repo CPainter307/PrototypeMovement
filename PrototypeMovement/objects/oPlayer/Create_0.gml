@@ -10,7 +10,7 @@
 #macro AIR_ACCELERATION .3
 #macro JUMP_BUFFER_LENGTH 7
 #macro SKID_TIME 60
-#macro JUMP_TIME 20
+#macro JUMP_TIME 14
 #macro DASH_BUFFER_LENGTH 20
 
 motionx = 0

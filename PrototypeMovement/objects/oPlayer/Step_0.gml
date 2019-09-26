@@ -103,12 +103,20 @@ if (space_pressed or jump_buffer > 0) and (on_floor or coyote_buffer > 0) {
 	coyote_buffer = 0
 	jump_time = JUMP_TIME
 	motiony = -JUMP_SPEED*2
-		if (dash_buffer > 0 and (sign(input_left - input_right) = sign(motionx))) { //executes if the player was dashing and input a change in direction.
-			motionx = 0	
+		if (dash_buffer > 0  ) { //executes reverse jumps if the player was dashing and input a change in direction.
+			if (sign(input_left - input_right) = sign(motionx)) {
+				motionx = 0	
+				dash_buffer = 0
+			}
+			dash_buffer = 3 // gives three frams after jump to register reverse jump
 		}
 }
 //held jump
 if space_held and jump_time > 0 {
+		if (dash_buffer > 0 and sign(input_left - input_right) = sign(motionx)) {
+			motionx = 0	
+			dash_buffer = 0
+		}
 	motiony = -JUMP_SPEED
 	jump_time--
 }
