@@ -199,6 +199,14 @@
             }
         },
         {
+            "Key": "b36ad4fd-013c-4e4d-b52c-6982abc07d6d",
+            "Value": {
+                "id": "70f2d5c7-2a57-4849-90a8-50c9460e54e1",
+                "resourcePath": "sprites\/spr_square_cooldown\/spr_square_cooldown.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "b6ba36f3-bc46-405a-9928-772e67bfd80a",
             "Value": {
                 "id": "85ef4088-beda-4be2-85a5-8c506401c2a2",

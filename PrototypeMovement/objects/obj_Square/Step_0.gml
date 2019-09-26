@@ -96,7 +96,10 @@ if (!dash_active) {						//if dash isn't active, then apply movement code; else 
 
 	//gravity set to zero if bottom touching block
 	if (position_meeting(x, y+(sprite_width/2) + 1, obj_Block)) {		//bottom of square touching block
-		gravity = 0;	
+		gravity = 0;
+		if (!jump_active) {
+			vspeed = 0;
+		}
 	}
 	else {
 		//gravity = grav;	
@@ -115,49 +118,53 @@ if (!dash_active) {						//if dash isn't active, then apply movement code; else 
 
 //Dash
 if (scr_get_input_pressed(inpt.dash)) {
-	dash_dir = scr_8_dir_input();
-	switch (dash_dir) {
-		case dir.up:
-			direction = 90;
-			break;
-		case dir.down:
-			direction = 270;
-			break;
-		case dir.left:
-			direction = 180;
-			break;
-		case dir.right:
-			direction = 0;
-			break;
-		case dir.up_left:
-			direction = 135;
-			break;
-		case dir.up_right:
-			direction = 45;
-			break;
-		case dir.down_left:
-			direction = 225;
-			break;
-		case dir.down_right:
-			direction = 315;
-			break;
-		default:					//no input so dash in current facing direction
-			if (facing == dir.left) {	//facing left so dash left
+	if (!dash_cooldown_active) {
+		dash_dir = scr_8_dir_input();
+		switch (dash_dir) {
+			case dir.up:
+				direction = 90;
+				break;
+			case dir.down:
+				direction = 270;
+				break;
+			case dir.left:
 				direction = 180;
-			}
-			else {						//facing right so dash right
+				break;
+			case dir.right:
 				direction = 0;
-			}
+				break;
+			case dir.up_left:
+				direction = 135;
+				break;
+			case dir.up_right:
+				direction = 45;
+				break;
+			case dir.down_left:
+				direction = 225;
+				break;
+			case dir.down_right:
+				direction = 315;
+				break;
+			default:					//no input so dash in current facing direction
+				if (facing == dir.left) {	//facing left so dash left
+					direction = 180;
+				}
+				else {						//facing right so dash right
+					direction = 0;
+				}
+		}
+		pre_dash_speed = speed;
+		speed = dash_spd;
+		gravity = 0;
+		dash_active = true;
+		dash_cooldown_active = true;
+		sprite_index = spr_square_cooldown;
 	}
-	pre_dash_speed = speed;
-	speed = dash_spd;
-	gravity = 0;
-	dash_active = true;
 }
 
 //Dash Timer
 if (dash_active) {
-	if (dash_i < dash_timer) {			//dash should still be going
+	if (dash_i < dash_duration) {			//dash should still be going
 		dash_i++;
 	}
 	else {								//dash should now stop
@@ -168,3 +175,14 @@ if (dash_active) {
 	}
 }
 
+//Dash Cooldown Timer
+if (dash_cooldown_active) {
+	if (dash_cooldown_i < dash_cooldown_timer) {
+		dash_cooldown_i++;	
+	}
+	else {
+		dash_cooldown_i = 0;
+		dash_cooldown_active = false;
+		sprite_index = spr_square;
+	}
+}
