@@ -16,6 +16,12 @@ switch (d) {
 	case inpt.right:
 		input = keyboard_check_pressed(ord(global.input_right));
 		break;
+	case inpt.jump:
+		input = keyboard_check_pressed(global.input_jump);
+		break;
+	case inpt.dash:
+		input = keyboard_check_pressed(global.input_dash);
+		break;
 }
 
 return input;

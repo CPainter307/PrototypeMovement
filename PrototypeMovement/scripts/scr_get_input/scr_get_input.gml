@@ -19,6 +19,9 @@ if (gamepad_is_connected(0)) {
 		case inpt.jump:
 			input = gamepad_button_check(0, global.input_jump);
 			break;
+		case inpt.dash:
+			input = gamepad_button_check(0, global.input_dash);
+			break;
 	}
 }
 else {
@@ -37,6 +40,10 @@ else {
 			break;
 		case inpt.jump:
 			input = keyboard_check(global.input_jump);
+			break;
+		case inpt.dash:
+			input = keyboard_check(global.input_dash);
+			break;
 	}
 }
 
