@@ -115,6 +115,7 @@ if (!dash_active) {						//if dash isn't active, then apply movement code; else 
 		}
 	}*/
 }
+//end dash restricted code
 
 //Dash
 if (scr_get_input_pressed(inpt.dash)) {

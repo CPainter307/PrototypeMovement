@@ -1,5 +1,9 @@
 freeze = false;
-spacer = 16;
+spacer = 48;
+scale = 1;
+
+//scale = window_get_height()/8;
+//spacer = scale/2;
 
 line0 = "Active";
 line1 = string(global.squareID.speed);

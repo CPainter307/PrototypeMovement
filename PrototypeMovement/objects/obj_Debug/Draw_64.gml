@@ -1,0 +1,11 @@
+//draw_self();
+draw_set_font(fnt_debug_big);
+draw_set_color(c_black);
+draw_text_transformed_color(x, y, "Debugger: " + line0, scale, scale, 0, c0, c0, c0, c0, 1);
+draw_text_transformed_color(x, y + spacer, "Speed: " + line1, scale, scale, 0, c1, c1, c1, c1, 1);
+draw_text_transformed_color(x, y + 2*spacer, "Horizontal Speed: " + line2, scale, scale, 0, c2, c2, c2, c2, 1);
+draw_text_transformed_color(x, y + 3*spacer, "Vertical Speed: " + line3, scale, scale, 0, c3, c3, c3, c3, 1);
+draw_text_transformed_color(x, y + 4*spacer, "Gravity: " + line4, scale, scale, 0, c4, c4, c4, c4, 1);
+draw_text_transformed_color(x, y + 5*spacer, "Direction: " + line5, scale, scale, 0, c5, c5, c5, c5, 1);
+draw_text_transformed_color(x, y + 6*spacer, line6, scale, scale, 0, c6, c6, c6, c6, 1);
+draw_text_transformed_color(x, y + 7*spacer, "Gamepad: " + line7, scale, scale, 0, c7, c7, c7, c7, 1);

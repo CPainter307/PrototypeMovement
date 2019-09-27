@@ -126,6 +126,15 @@ else {
 
 
 //Extra Collision Events
+
+//Bottom
+if (bottom_collision) {
+	if (dash_cooldown_active) {					//effectively resets dash cooldown
+		dash_cooldown_i = dash_cooldown_timer;	
+	}
+}
+
+//Top
 if (top_collision) {
 	if (!init_top_collision) {
 		init_top_collision = true;
@@ -136,6 +145,7 @@ else {
 	init_top_collision = false;	
 }
 
+//Right
 if (right_collision) {
 	if (!init_right_collision) {
 		init_right_collision = true;
@@ -146,6 +156,7 @@ else {
 	init_right_collision = false;	
 }
 
+//Left
 if (left_collision) {
 	if (!init_left_collision) {
 		init_left_collision = true;

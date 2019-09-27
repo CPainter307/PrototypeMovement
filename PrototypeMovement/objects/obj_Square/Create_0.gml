@@ -17,6 +17,9 @@ jump_active = false;
 jump_rising = false;
 jump_time = 64;				//number of steps jump will be active
 jump_i = 0;					//counter to get to jump time;
+sticky_jump_range = sprite_height/8;
+sticky_jump_possible = false;		//true if a sticky jump is possible
+sticky_jump_stored = false;			//true if we're storing a sticky jump
 
 //Left and Right Movement
 fric = 2;
