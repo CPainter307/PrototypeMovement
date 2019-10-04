@@ -8,9 +8,17 @@ if gamepad_is_connected(0) {
 	input_left =  keyboard_check(ord("A"))
 	xdir = keyboard_check(ord("D")) - keyboard_check(ord("A"))
 	space_pressed = keyboard_check_pressed(vk_space)
-	space_held = keyboard_check(vk_space)
+	space_held = keyboard_check(vk_space)              
 	space_released = keyboard_check_released(vk_space)
+	shift_pressed = keyboard_check_pressed(vk_shift)
+	shift_held = keyboard_check(vk_shift)
+	shift_released = keyboard_check_released(vk_shift)
 }
+
+if keyboard_check_pressed(ord("R")) {
+	room_restart()	
+}
+
 
 //add gravity
 if motiony < 0 {
@@ -19,28 +27,40 @@ if motiony < 0 {
 	motiony += FALL_GRAVITY	
 }
 
-//coyote buffer
+//jumping with buffer
 if on_floor {
-	coyote_buffer = JUMP_BUFFER_LENGTH
+    coyote_buffer = 0
+    if !has_jumped and jump_buffer < JUMP_BUFFER_LENGTH {
+        jump_time = JUMP_TIME
+        jump_buffer = JUMP_BUFFER_LENGTH
+        has_jumped = true
+        motiony = -JUMP_SPEED*3
+    }
 }
-if coyote_buffer > 0 {
-	coyote_buffer -= 1	
-}
+jump_buffer++
 
-//ground jump buffer
 if space_pressed {
-	jump_buffer = JUMP_BUFFER_LENGTH
+    jump_buffer = 0
+    if !has_jumped and coyote_buffer < JUMP_BUFFER_LENGTH {
+        jump_time = JUMP_TIME
+        coyote_buffer = JUMP_BUFFER_LENGTH
+        has_jumped = true
+        motiony = -JUMP_SPEED*3
+    }
 }
-if jump_buffer > 0 {
-	jump_buffer -= 1	
+coyote_buffer++
+
+if space_held and jump_time > 0 and has_jumped {
+    motiony = -JUMP_SPEED
+    jump_time--
 }
 
-//release jump buffer
 if space_released {
-	release_buffer = JUMP_BUFFER_LENGTH
-}
-if release_buffer > 0 {
-	release_buffer -= 1	
+    has_jumped = false
+    jump_time = 0
+    if motiony < 0 {
+        motiony = lerp(motiony, 0, JUMP_FALLOFF_SPEED)
+    }
 }
 
 
@@ -54,18 +74,20 @@ if ((!input_right and motionx > 0 ) or (!input_left and motionx < 0)) { //if try
 }
 
 //moving
-if on_floor or coyote_buffer > 0 {
+if on_floor {
 	if input_right { // moving right
 		motionx += ACCELERATION
 		if motionx >= MAX_SPEED {
-			motionx = MAX_SPEED
+			motionx -= ACCELERATION
+			motionx = lerp(motionx, MAX_SPEED, DECCELRATION)
 			at_max_speed = true
 		}
 	}
 	if input_left { // moving left
 		motionx -= ACCELERATION
 		if motionx <= -MAX_SPEED {
-			motionx = -MAX_SPEED
+			motionx -= -ACCELERATION
+			motionx = lerp(motionx, -MAX_SPEED, DECCELRATION)
 			at_max_speed = true
 		}
 	}
@@ -73,13 +95,15 @@ if on_floor or coyote_buffer > 0 {
 	if input_right { // moving right
 		motionx += AIR_ACCELERATION
 		if motionx >= MAX_SPEED {
-			motionx = MAX_SPEED
+			motionx -= AIR_ACCELERATION
+			motionx = lerp(motionx, MAX_SPEED, DECCELRATION)
 		}
 	}
 	if input_left { // moving left
 		motionx -= AIR_ACCELERATION
 		if motionx <= -MAX_SPEED {
-			motionx = -MAX_SPEED
+			motionx -= -AIR_ACCELERATION
+			motionx = lerp(motionx, -MAX_SPEED, DECCELRATION)
 		}
 	}	
 }
@@ -94,37 +118,20 @@ if dash_buffer > 0 {
 	dash_buffer -= 1	
 }
 
+//dashing
 
-//jump
+if (shift_held) {
+	MAX_SPEED = MAX_SPRINT_SPEED
+	ACCELERATION = SPRINT_ACCELERATION
+	AIR_ACCELERATION = SPRINT_AIR_ACCELERATION
+}
 
-//inital jump
-if (space_pressed or jump_buffer > 0) and (on_floor or coyote_buffer > 0) { 
-	jump_buffer = 0
-	coyote_buffer = 0
-	jump_time = JUMP_TIME
-	motiony = -JUMP_SPEED*2
-		if (dash_buffer > 0  ) { //executes reverse jumps if the player was dashing and input a change in direction.
-			if (sign(input_left - input_right) = sign(motionx)) {
-				motionx = 0	
-				dash_buffer = 0
-			}
-			dash_buffer = 3 // gives three frams after jump to register reverse jump
-		}
+else {
+	MAX_SPEED = MAX_JOG_SPEED
+	ACCELERATION = JOG_ACCELERATION
+	AIR_ACCELERATION = JOG_AIR_ACCELERATION
 }
-//held jump
-if space_held and jump_time > 0 {
-		if (dash_buffer > 0 and sign(input_left - input_right) = sign(motionx)) {
-			motionx = 0	
-			dash_buffer = 0
-		}
-	motiony = -JUMP_SPEED
-	jump_time--
-}
-//release jump 
-if (space_released or release_buffer > 0) and motiony < 0 { 
-	//motiony = lerp(motiony, 0, JUMP_FALLOFF_SPEED)	
-	jump_time = 0
-} 
+
 
 //collision
 if (place_meeting(x+motionx, y, oWall)) {
@@ -136,12 +143,16 @@ if (place_meeting(x+motionx, y, oWall)) {
 x += motionx
 
 if (place_meeting(x, y+motiony, oWall)) {
-	on_floor = true
-	while (!place_meeting(x, y+sign(motiony), oWall)) {
-		y += sign(motiony);
-	}
-	motiony = 0;
+    jump_time = 0
+    if sign(motiony) > 0 {
+        on_floor = true
+    }
+    has_jumped = false
+    while (!place_meeting(x, y+sign(motiony), oWall)) {
+        y += sign(motiony);
+    }
+    motiony = 0;
 } else {
-	on_floor = false	
+    on_floor = false
 }
 y += motiony
