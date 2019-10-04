@@ -108,18 +108,7 @@ if on_floor {
 	}	
 }
 
-
-//dash buffer      
-if (at_max_speed) {
-	dash_buffer = DASH_BUFFER_LENGTH	
-	at_max_speed = false
-}
-if dash_buffer > 0 {
-	dash_buffer -= 1	
-}
-
-//dashing
-
+//sprinting
 if (shift_held) {
 	MAX_SPEED = MAX_SPRINT_SPEED
 	ACCELERATION = SPRINT_ACCELERATION
